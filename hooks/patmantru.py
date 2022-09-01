@@ -40,8 +40,10 @@ def pre_export(output, conanfile, conanfile_path, reference, **kwargs):
 
     # We are injecting this version only if it doesn't already exist
     if not content.get('sources') or not content['sources'].get(conanfile.version):
-        this.repository = guess_repository(content)
-        output.info(f"patmantru - Found repository '{this.repository}'")
+        repo = guess_repository(content)
+        if repo:
+            this.repository = repo
+            output.info(f"patmantru - Found repository '{this.repository}'")
 
         # TODO: We can check if the branch (conanfile.version) exists in the given repository
         pass
