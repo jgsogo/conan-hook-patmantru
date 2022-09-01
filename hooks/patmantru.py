@@ -3,6 +3,7 @@
 #
 # This hook will inject dinamically the sources for a given version if it doesn't exist already in the
 # conandata.yml. The conanfile version will be translated into a branch name.
+#
 ###
 
 import os
@@ -33,12 +34,17 @@ def pre_export(output, conanfile, conanfile_path, reference, **kwargs):
     with open(conandata_path) as f:
         content = yaml.load(f)
     
+    # TODO: We probably want to run this hook only for certain references
+    # if conanfile.name not in ['...', '...']:
+    #     return
+
     # We are injecting this version only if it doesn't already exist
     if not content.get('sources') or not content['sources'].get(conanfile.version):
         this.repository = guess_repository(content)
         output.info(f"patmantru - Found repository '{this.repository}'")
 
         # TODO: We can check if the branch (conanfile.version) exists in the given repository
+        pass
 
 
 def post_export(output, conanfile, conanfile_path, reference, **kwargs):
